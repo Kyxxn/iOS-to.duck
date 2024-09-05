@@ -1,3 +1,6 @@
+### Architecture
+<img width="1213" alt="스크린샷 2024-09-05 오후 4 35 56" src="https://github.com/user-attachments/assets/87c48756-6847-49db-8584-952082ef888c">
+
 
 ### 🛠 Development Environment
 
