@@ -32,7 +32,13 @@ final class TDLabel: UILabel {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        self.labelText = ""
+        self.toduckFont = TDFont.mediumHeader5
+        self.alignment = .justified
+        self.toduckColor = TDColor.Neutral.neutral800
+        
+        super.init(coder: coder)
+        setupAttributes()
     }
     
     // MARK: - SetUp
@@ -71,6 +77,7 @@ final class TDLabel: UILabel {
         )
         
         attributedText = attributedString
+        textColor = toduckColor
     }
     
     func setFont(_ font: TDFont) {

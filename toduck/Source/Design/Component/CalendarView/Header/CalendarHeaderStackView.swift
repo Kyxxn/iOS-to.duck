@@ -10,7 +10,7 @@ import SnapKit
 import Then
 
 final class CalendarHeaderStackView: UIStackView {
-    let titleLabel = TDLabel(labelText: "2024년 8월", toduckFont: TDFont.boldHeader4)
+    let titleLabel = TDLabel(labelText: "", toduckFont: TDFont.boldHeader4)
     let pickerButton = UIButton(type: .system).then {
         $0.setImage(TDImage.Direction.right2Medium, for: .normal)
     }
@@ -20,7 +20,7 @@ final class CalendarHeaderStackView: UIStackView {
         
         switch type {
         case .toduck, .diary:
-            setupTDOrDiaryHeader()
+            setupDefaultHeader()
         case .sheet:
             setupSheetHeader()
         }
@@ -30,7 +30,7 @@ final class CalendarHeaderStackView: UIStackView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setupTDOrDiaryHeader() {
+    private func setupDefaultHeader() {
         self.axis = .horizontal
         self.spacing = 8
         
