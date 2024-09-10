@@ -15,6 +15,15 @@ final class TDLabel: UILabel {
     
     // MARK: - Initialize
     
+    ///  커스텀 Label:  텍스트, 폰트, 정렬, 색상 지정이 가능합니다.
+    ///
+    /// - Parameters:
+    ///   - frame: 레이블의 프레임. 기본값은 `.zero`입니다.
+    ///   - labelText: 레이블에 표시될 텍스트. 기본값은 빈 문자열입니다.
+    ///   - toduckFont: `TDFont` 클래스에서 정의된 커스텀 폰트입니다.
+    ///   - alignment: 텍스트 정렬 방식. 기본값은 `.justified`입니다.
+    ///   - toduckColor: 텍스트 색상. 기본값은 `TDColor.Neutral.neutral800`입니다.
+    
     init(
         frame: CGRect = .zero,
         labelText: String = "",

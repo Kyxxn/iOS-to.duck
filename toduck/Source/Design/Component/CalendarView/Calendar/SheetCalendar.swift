@@ -10,7 +10,7 @@ import SnapKit
 import Then
 import UIKit
 
-final class SheetCalendar: BaseCalendar {    
+final class SheetCalendar: BaseCalendar {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupSheetCalendar()

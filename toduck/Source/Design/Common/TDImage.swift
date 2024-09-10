@@ -176,4 +176,40 @@ public enum TDImage {
         public static let kakaoLogo = ToduckAsset.Images.kakaoLogo.image
         public static let naverLogo = ToduckAsset.Images.naverLogo.image
     }
+    
+    public enum Mood {
+        public static let sad = ToduckAsset.Images.sadMood.image
+        public static let happy = ToduckAsset.Images.happyMood.image
+        public static let angry = ToduckAsset.Images.angryMood.image
+        public static let anxiety = ToduckAsset.Images.anxietyMood.image
+        public static let calmness = ToduckAsset.Images.calmnessMood.image
+        public static let tired = ToduckAsset.Images.tiredMood.image
+    }
+    
+    public enum Percent {
+        public enum Dot {
+            public static let percent0 = ToduckAsset.Images.percentDot0.image
+            public static let percent10 = ToduckAsset.Images.percentDot10.image
+            public static let percent20 = ToduckAsset.Images.percentDot20.image
+            public static let percent30 = ToduckAsset.Images.percentDot30.image
+            public static let percent40 = ToduckAsset.Images.percentDot40.image
+            public static let percent50 = ToduckAsset.Images.percentDot50.image
+            public static let percent60 = ToduckAsset.Images.percentDot60.image
+            public static let percent70 = ToduckAsset.Images.percentDot70.image
+            public static let percent80 = ToduckAsset.Images.percentDot80.image
+            public static let percent90 = ToduckAsset.Images.percentDot90.image
+            public static let percent100 = ToduckAsset.Images.percentDot100.image
+        }
+        public static let percent0 = ToduckAsset.Images.percent0.image
+        public static let percent10 = ToduckAsset.Images.percent10.image
+        public static let percent20 = ToduckAsset.Images.percent20.image
+        public static let percent30 = ToduckAsset.Images.percent30.image
+        public static let percent40 = ToduckAsset.Images.percent40.image
+        public static let percent50 = ToduckAsset.Images.percent50.image
+        public static let percent60 = ToduckAsset.Images.percent60.image
+        public static let percent70 = ToduckAsset.Images.percent70.image
+        public static let percent80 = ToduckAsset.Images.percent80.image
+        public static let percent90 = ToduckAsset.Images.percent90.image
+        public static let percent100 = ToduckAsset.Images.percent100.image
+    }
 }
