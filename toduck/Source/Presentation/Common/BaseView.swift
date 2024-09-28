@@ -11,7 +11,6 @@ class BaseView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        self.backgroundColor = .white
         self.addview()
         self.configure()
         self.layout()

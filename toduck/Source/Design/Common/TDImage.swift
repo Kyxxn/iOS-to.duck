@@ -26,6 +26,7 @@ public enum TDImage {
     public static let shareMedium = ToduckAsset.Images.shareMedium.image
     public static let sortMedium = ToduckAsset.Images.sortMedium.image
     public static let trashMedium = ToduckAsset.Images.trashMedium.image
+    public static let downMedium = ToduckAsset.Images.downMedium.image
     public static let addSmall = ToduckAsset.Images.addSmall.image
     public static let alarmSmall = ToduckAsset.Images.alarmSmall.image
     public static let badSmall = ToduckAsset.Images.badSmall.image

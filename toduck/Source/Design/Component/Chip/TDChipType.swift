@@ -1,11 +1,3 @@
-//
-//  TDChipType.swift
-//  toduck
-//
-//  Created by 승재 on 8/10/24.
-//
-
-import Foundation
 import UIKit
 
 enum TDChipType {

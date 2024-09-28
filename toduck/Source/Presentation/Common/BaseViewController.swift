@@ -10,7 +10,6 @@ class BaseViewController<LayoutView: BaseView>: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor =  TDColor.Neutral.neutral50
         self.configure()
         self.addView()
         self.layout()

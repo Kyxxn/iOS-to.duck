@@ -6,12 +6,20 @@
 //
 import SnapKit
 import Then
-import Foundation
 import Kingfisher
 import UIKit
 
+protocol SocialFeedCollectionViewCellDelegate: AnyObject {
+    func didTapLikeButton(_ cell: SocialFeedCollectionViewCell)
+    func didTapCommentButton(_ cell: SocialFeedCollectionViewCell)
+    func didTapShareButton(_ cell: SocialFeedCollectionViewCell)
+    func didTapMoreButton(_ cell: SocialFeedCollectionViewCell)
+    func didTapNickname(_ cell: SocialFeedCollectionViewCell)
+}
+
 class SocialFeedCollectionViewCell: UICollectionViewCell {
     private let containerView = UIView()
+    weak var socialFeedCellDelegate: SocialFeedCollectionViewCellDelegate?
     
     private var verticalStackView = UIStackView().then {
         $0.axis = .vertical
@@ -36,7 +44,6 @@ class SocialFeedCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    
     private var headerRightStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.alignment = .fill
@@ -46,12 +53,12 @@ class SocialFeedCollectionViewCell: UICollectionViewCell {
     
     private var bodyStackView = UIStackView().then{
         $0.axis = .vertical
-        $0.spacing = 10
+        $0.spacing = 14
         $0.alignment = .fill
         $0.distribution = .fill
     }
     
-    private var footerView = UIView()
+    private let footerView = UIView()
     
     lazy var dotIconView = UIImageView().then {
         $0.tintColor = TDColor.Neutral.neutral500
@@ -59,11 +66,10 @@ class SocialFeedCollectionViewCell: UICollectionViewCell {
         $0.image = TDImage.Dot.horizontalMedium.withRenderingMode(.alwaysTemplate)
     }
     
-    lazy var likeIconView = UIImageView().then {
-        
+    lazy var likeButton = UIButton().then {
         $0.tintColor = TDColor.Neutral.neutral500
         $0.contentMode = .scaleAspectFit
-        $0.image = TDImage.Like.emptyMedium.withRenderingMode(.alwaysTemplate)
+        $0.addTarget(self, action: #selector(didSelectLikeButton), for: .touchUpInside)
     }
     
     lazy var commentIconView = UIImageView().then {
@@ -85,9 +91,10 @@ class SocialFeedCollectionViewCell: UICollectionViewCell {
         $0.backgroundColor = TDColor.Neutral.neutral100
     }
     
-    private var titleBagde = TDBadge(badgeTitle: "")
+    private var titleBagde = TDBadge(badgeTitle: "",backgroundColor: TDColor.Primary.primary25, foregroundColor: TDColor.Primary.primary500)
     
     private var nicknameLabel = TDLabel(toduckFont: .mediumBody2, toduckColor: TDColor.Neutral.neutral700)
+    
     private var dateLabel = TDLabel(toduckFont: .regularBody2, toduckColor: TDColor.Neutral.neutral500)
     
     private var contentLabel = TDLabel(toduckFont: .mediumBody2, toduckColor: TDColor.Neutral.neutral800).then {
@@ -95,6 +102,7 @@ class SocialFeedCollectionViewCell: UICollectionViewCell {
     }
     
     private var likeLabel = TDLabel(toduckFont: .regularBody2, toduckColor: TDColor.Neutral.neutral600)
+    
     private var commentLabel = TDLabel(toduckFont: .regularBody2, toduckColor: TDColor.Neutral.neutral600)
     private var shareLabel = TDLabel(toduckFont: .regularBody2, toduckColor: TDColor.Neutral.neutral600)
     
@@ -108,9 +116,8 @@ class SocialFeedCollectionViewCell: UICollectionViewCell {
         $0.distribution = .fill
     }
     
-    // Semibold가 없어요
     private var routineTitleLabel = TDLabel(toduckFont: .boldBody1, toduckColor: TDColor.Neutral.neutral800).then {
-        $0.numberOfLines = 0
+        $0.numberOfLines = 2
     }
     
     private var routineContentLabel = TDLabel(toduckFont: .regularBody2, toduckColor: TDColor.Neutral.neutral800).then{
@@ -129,6 +136,7 @@ class SocialFeedCollectionViewCell: UICollectionViewCell {
         super.init(coder: coder)
         setupUI()
     }
+    
     func configure(with item: Post) {
         titleBagde.setTitle(item.user.title)
         nicknameLabel.setText(item.user.name)
@@ -137,10 +145,15 @@ class SocialFeedCollectionViewCell: UICollectionViewCell {
         contentLabel.setText(item.contentText)
         likeLabel.setText("\(item.likeCount ?? 0)")
         commentLabel.setText("\(item.commentCount ?? 0)")
+        likeButton.setImage(item.isLike ?
+                            TDImage.Like.filledMedium.withRenderingMode(.alwaysOriginal) :
+                            TDImage.Like.emptyMedium.withRenderingMode(.alwaysTemplate), for: .normal)
+        
         
         guard let url = URL(string: item.user.icon) else { return }
         // lloadImage 수정 필요
         loadImages(url: url)
+        
         
         if let shareCount = item.shareCount, shareCount > 0 {
             shareLabel.setText("\(shareCount)")
@@ -158,6 +171,18 @@ class SocialFeedCollectionViewCell: UICollectionViewCell {
             }
             setupRoutineView()
         }
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        likeButton.setImage(TDImage.Like.emptyMedium.withRenderingMode(.alwaysTemplate), for: .normal)
+        likeLabel.setText("0")
+        commentLabel.setText("0")
+        shareLabel.setText("0")
+        routineStackView.removeFromSuperview()
+        shareIconView.isHidden = false
+        shareLabel.isHidden = false
+        avatarView.image = TDImage.Profile.medium
     }
 }
 private extension SocialFeedCollectionViewCell {
@@ -192,7 +217,7 @@ private extension SocialFeedCollectionViewCell {
             verticalStackView.addArrangedSubview($0)
         }
         
-        [likeIconView, likeLabel, commentIconView, commentLabel, shareIconView, shareLabel].forEach{
+        [likeButton, likeLabel, commentIconView, commentLabel, shareIconView, shareLabel].forEach{
             footerView.addSubview($0)
         }
         
@@ -207,7 +232,7 @@ private extension SocialFeedCollectionViewCell {
             make.top.leading.equalToSuperview()
             make.size.equalTo(36)
         }
-        [titleBagde, nicknameLabel, dateLabel, dotIconView, likeIconView,likeLabel,commentIconView,commentLabel,shareIconView,shareLabel].forEach {
+        [titleBagde, nicknameLabel, dateLabel, dotIconView, likeButton,likeLabel,commentIconView,commentLabel,shareIconView,shareLabel].forEach {
             $0.snp.makeConstraints { make in
                 make.centerY.equalToSuperview()
             }
@@ -215,7 +240,7 @@ private extension SocialFeedCollectionViewCell {
         
         verticalStackView.snp.makeConstraints { make in
             make.leading.equalTo(avatarView.snp.trailing).offset(10)
-            make.trailing.equalToSuperview()
+            make.trailing.equalToSuperview().offset(-16)
             make.top.equalToSuperview()
             make.bottom.equalToSuperview()
         }
@@ -229,14 +254,14 @@ private extension SocialFeedCollectionViewCell {
         dotIconView.snp.makeConstraints { make in
             make.size.equalTo(24)
         }
-        likeIconView.snp.makeConstraints { make in
+        likeButton.snp.makeConstraints { make in
             make.leading.equalToSuperview()
             make.size.equalTo(24)
         }
         
         likeLabel.snp.makeConstraints { make in
-            make.leading.equalTo(likeIconView.snp.trailing).offset(2)
-            make.centerY.equalTo(likeIconView)
+            make.leading.equalTo(likeButton.snp.trailing).offset(2)
+            make.centerY.equalTo(likeButton)
         }
         
         commentIconView.snp.makeConstraints { make in
@@ -266,31 +291,32 @@ private extension SocialFeedCollectionViewCell {
         
         bodyStackView.addArrangedSubview(routineStackView)
         routineStackView.snp.makeConstraints { make in
-            make.width.equalToSuperview()
+            make.leading.equalTo(verticalStackView.snp.leading)
+            make.trailing.equalToSuperview()
         }
-        let spacingView = UIView()
-        spacingView.snp.makeConstraints { make in
-            make.height.equalTo(4)
-        }
-        [spacingView,routineTitleLabel, routineContentLabel, routineDateLabel,spacingView].forEach {
+
+        [routineTitleLabel, routineContentLabel, routineDateLabel].forEach {
             routineStackView.addArrangedSubview($0)
         }
         
-        routineTitleLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(14)
-            make.leading.equalToSuperview().offset(20)
-            make.trailing.equalToSuperview().offset(-20)
-        }
+        routineStackView.layoutMargins = UIEdgeInsets(top: 14, left: 16, bottom: 14, right: 16)
+        routineStackView.isLayoutMarginsRelativeArrangement = true
         
-        routineContentLabel.snp.makeConstraints { make in
-            make.bottom.equalTo(routineDateLabel.snp.top).offset(-18)
-            make.leading.trailing.equalTo(routineTitleLabel)
-            
-        }
-        
-        routineDateLabel.snp.makeConstraints { make in
-            make.bottom.equalToSuperview().offset(-10)
-            make.leading.trailing.equalTo(routineTitleLabel)
-        }
+
+    }
+}
+
+// Delegate 처리
+extension SocialFeedCollectionViewCell {
+    @objc func didSelectLikeButton() {
+        socialFeedCellDelegate?.didTapLikeButton(self)
+    }
+    
+    @objc func didSelectCommentButton() {
+        socialFeedCellDelegate?.didTapCommentButton(self)
+    }
+    
+    @objc func didSelectShareButton() {
+        socialFeedCellDelegate?.didTapShareButton(self)
     }
 }

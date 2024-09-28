@@ -6,31 +6,51 @@
 //
 
 import UIKit
-import Then
-import SnapKit
 
-class SocialViewController: UIViewController, TDSheetPresentation {
-    private(set) lazy var chipCollectionView = TDChipCollectionView(chipType: .capsule)
-    private(set) lazy var chipCollectionView2 = TDChipCollectionView(chipType: .roundedRectangle)
-    private(set) lazy var socialFeedCollectionView = UICollectionView(frame: .zero, collectionViewLayout: makeCollectionViewLayout()).then {
-        $0.backgroundColor = TDColor.baseWhite
+class SocialViewController: BaseViewController<SocialView>, TDSheetPresentation {
+    
+    private let searchBar = UISearchBar()
+    private var filteredPosts: [Post] = []
+    
+    let chips: [TDChipItem] = [
+        TDChipItem(title: "집중력"),
+        TDChipItem(title: "기억력"),
+        TDChipItem(title: "충돌"),
+        TDChipItem(title: "불안"),
+        TDChipItem(title: "수면"),
+    ]
+    
+    var posts: [Post] = Post.dummy
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
+    override func configure() {
+        layoutView.socialFeedCollectionView.register(with: SocialFeedCollectionViewCell.self)
+        layoutView.socialFeedCollectionView.dataSource = self
+        layoutView.socialFeedCollectionView.delegate = self
+        layoutView.chipCollectionView.chipDelegate = self
+        layoutView.chipCollectionView.setChips(chips)
+    }
+    
+    override func addView() {
         
     }
     
-    let chipTexts = ["전체", "집중력", "기억력", "충동", "불안", "수면", "test", "test2", "test3", "test4", "test5"]
-    let posts : [Post] = Post.dummy
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.view.backgroundColor = .white
-        self.setupUI()
-        self.socialFeedCollectionView.dataSource = self
-        self.socialFeedCollectionView.delegate = self
+    override func layout() {
+        
+    }
+    
+    override func binding() {
+        
     }
 }
 
 extension SocialViewController: TDChipCollectionViewDelegate {
     func chipCollectionView(_ collectionView: TDChipCollectionView, didSelectChipAt index: Int, chipText: String) {
         print("[LOG] 현재 Select 한 Chip: \(chipText) , Index = : \(index)")
+        layoutView.hideDropdown()
     }
 }
 
@@ -42,83 +62,41 @@ extension SocialViewController: UICollectionViewDataSource, UICollectionViewDele
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: SocialFeedCollectionViewCell = collectionView.dequeueReusableCell(for: indexPath)
         let post = posts[indexPath.item]
+        cell.socialFeedCellDelegate = self
         cell.configure(with: post)
         return cell
     }
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("[LOG] Clicked")
-    }
-}
-
-private extension SocialViewController {
     
-    private func setupUI() {
-        //MARK: - layout 싹 다 다시 잡아야함
-        view.addSubview(chipCollectionView)
-        view.addSubview(chipCollectionView2)
-        view.addSubview(socialFeedCollectionView)
-        chipCollectionView.chipDelegate = self
-        chipCollectionView2.chipDelegate = self
-        socialFeedCollectionView.register(with: SocialFeedCollectionViewCell.self)
-        chipCollectionView.snp.makeConstraints { make in
-            make.height.equalTo(50)
-            make.top.equalToSuperview().offset(100)
-            make.leading.equalToSuperview().offset(10)
-            make.trailing.equalToSuperview().offset(-10)
-        }
-        chipCollectionView2.snp.makeConstraints { make in
-            make.height.equalTo(50)
-            make.top.equalTo(chipCollectionView.snp.bottom).offset(20)
-            make.leading.equalToSuperview().offset(10)
-            make.trailing.equalToSuperview().offset(-10)
-        }
-        
-        chipCollectionView.setChips(chipTexts)
-        chipCollectionView2.setChips(chipTexts)
-        
-        socialFeedCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(chipCollectionView2.snp.bottom).offset(20)
-            make.leading.equalToSuperview()
-            make.bottom.equalToSuperview()
-            make.width.equalToSuperview()
-        }
-        
-        
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        layoutView.hideDropdown()
     }
 }
 
-private extension SocialViewController {
-    func makeCollectionViewLayout() -> UICollectionViewLayout {
-        let itemPadding: CGFloat = 10
-        let groupPadding: CGFloat = 16
-        let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(300)
-        )
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(300)
-        )
+extension SocialViewController: SocialFeedCollectionViewCellDelegate{
+    func didTapNickname(_ cell: SocialFeedCollectionViewCell) {
         
-        let edgeSpacing = NSCollectionLayoutEdgeSpacing(
-            leading: .fixed(0),
-            top: .fixed(itemPadding),
-            trailing: .fixed(0),
-            bottom: .fixed(itemPadding)
-        )
+    }
+
+    func didTapMoreButton(_ cell: SocialFeedCollectionViewCell) {
+    
+    }
+    
+    func didTapCommentButton(_ cell: SocialFeedCollectionViewCell) {
+        print("[LOG] Comment Button Clicked")
+    }
+
+    func didTapShareButton(_ cell: SocialFeedCollectionViewCell) {
+        print("[LOG] Share Button Clicked")
+    }
+
+    func didTapLikeButton(_ cell: SocialFeedCollectionViewCell) {
+        print("[LOG] Like Button Clicked")
+        guard let indexPath = layoutView.socialFeedCollectionView.indexPath(for: cell) else {
+            return
+        }
         
-        let groupInset = NSDirectionalEdgeInsets(
-            top: 0,
-            leading: groupPadding,
-            bottom: 0,
-            trailing: groupPadding
-        )
-        
-        return UICollectionViewCompositionalLayout.makeVerticalCompositionalLayout(
-            itemSize: itemSize,
-            itemEdgeSpacing: edgeSpacing,
-            groupSize: groupSize,
-            groupInset: groupInset
-        )
+        let postIndex = indexPath.item
+        posts[postIndex].isLike.toggle()
+        cell.configure(with: posts[postIndex])
     }
 }

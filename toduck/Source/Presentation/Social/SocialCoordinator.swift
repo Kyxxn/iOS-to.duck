@@ -20,4 +20,5 @@ final class SocialCoordinator: Coordinator {
         let socialViewController = SocialViewController()
         navigationController.pushViewController(socialViewController, animated: false)
     }
+    
 }
