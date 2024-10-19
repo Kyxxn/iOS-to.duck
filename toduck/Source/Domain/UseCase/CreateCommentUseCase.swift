@@ -7,7 +7,11 @@
 
 import Foundation
 
-public final class CreateCommentUseCase {
+public protocol CreateCommentUseCase {
+    func execute(comment: Comment) async throws -> Bool
+}
+
+public final class CreateCommentUseCaseImpl: CreateCommentUseCase {
     private let repository: CommentRepositoryProtocol
     
     public init(repository: CommentRepositoryProtocol) {

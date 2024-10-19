@@ -8,6 +8,14 @@ class BaseViewController<LayoutView: BaseView>: UIViewController {
     func addView() {}
     func binding() {}
     
+    init() {
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configure()

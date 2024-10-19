@@ -11,18 +11,13 @@ struct SheetUtil {
     /// ViewController가 갖는 view의 높이를 계산하는데 사용됨
     static func calculateHeight(for viewController: UIViewController) -> CGFloat {
         viewController.view.layoutIfNeeded()
-        
-//        let viewSize: CGSize = UIView.layoutFittingCompressedSize
-//        
-//        return viewController.view.systemLayoutSizeFitting(viewSize).height
-        
-        let targetSize = CGSize(width: viewController.view.bounds.width, height: 0)
-        var height = viewController.view.systemLayoutSizeFitting(
-            targetSize,
+        let fittingSize = CGSize(width: viewController.view.bounds.width, height: UIView.layoutFittingCompressedSize.height)
+        return viewController.view.systemLayoutSizeFitting(
+            fittingSize,
             withHorizontalFittingPriority: .required,
             verticalFittingPriority: .fittingSizeLevel
         ).height
-            
-        return height
     }
+
+
 }

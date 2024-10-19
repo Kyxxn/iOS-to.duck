@@ -8,9 +8,9 @@
 import Foundation
 
 public final class CreatePostUseCase {
-    private let repository: PostRepositoryProtocol
+    private let repository: PostRepository
     
-    public init(repository: PostRepositoryProtocol) {
+    public init(repository: PostRepository) {
         self.repository = repository
     }
     

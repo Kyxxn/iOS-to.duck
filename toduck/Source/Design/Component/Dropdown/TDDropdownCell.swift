@@ -10,8 +10,23 @@ final class DropDownCell: UITableViewCell {
         }
     }
     
+    private let stackView = UIStackView().then {
+        $0.spacing = 5
+        $0.axis = .horizontal
+        $0.alignment = .center
+        $0.distribution = .equalSpacing
+    }
+    
     // MARK: - UI Components
     private let optionLabel = TDLabel(labelText: "", toduckFont: TDFont.boldBody2, alignment: .center, toduckColor: TDColor.Neutral.neutral800)
+    
+    private let leftImageView = UIImageView().then {
+        $0.contentMode = .scaleAspectFit
+    }
+    
+    private let rightImageView = UIImageView().then {
+        $0.contentMode = .scaleAspectFit
+    }
     
     // MARK: - Initializers
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -23,9 +38,28 @@ final class DropDownCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        stackView.arrangedSubviews.forEach {
+            $0.removeFromSuperview()
+        }
+        leftImageView.image = nil
+        rightImageView.image = nil
+    }
+    
     // MARK: - Configure
-    func configure(with text: String) {
+    func configure(with text: String, leftImage: UIImage? = nil, rightImage: UIImage? = nil) {
+        if let leftImage = leftImage {
+            leftImageView.image = leftImage
+            stackView.addArrangedSubview(leftImageView)
+        }
         optionLabel.setText(text)
+        stackView.addArrangedSubview(optionLabel)
+        
+        if let rightImage = rightImage {
+            rightImageView.image = rightImage
+            stackView.addArrangedSubview(rightImageView)
+        }
     }
 }
 
@@ -38,11 +72,11 @@ private extension DropDownCell {
     }
     
     func setViewHierarchy() {
-        contentView.addSubview(optionLabel)
+        contentView.addSubview(stackView)
     }
     
     func setConstraints() {
-        optionLabel.snp.makeConstraints {
+        stackView.snp.makeConstraints {
             $0.edges.equalToSuperview().inset(8)
         }
     }

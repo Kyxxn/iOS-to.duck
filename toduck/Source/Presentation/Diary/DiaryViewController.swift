@@ -14,4 +14,14 @@ class DiaryViewController: UIViewController {
         
         self.view.backgroundColor = .systemGray
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.tabBarController?.tabBar.backgroundColor = TDColor.baseBlack
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.tabBarController?.tabBar.backgroundColor = TDColor.baseWhite
+    }
 }

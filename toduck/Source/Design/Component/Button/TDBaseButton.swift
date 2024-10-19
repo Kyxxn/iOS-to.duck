@@ -51,14 +51,9 @@ public class TDBaseButton: UIButton {
                 setTitle(title, for: .normal)
                 imageEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0)
                 titleEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
-
-            } else {
-                let spacing: CGFloat = 4
-                let imageWidth = image.size.width
-                let titleWidth = titleLabel?.intrinsicContentSize.width ?? 0
-                let totalWidth = imageWidth + spacing + titleWidth
-                imageEdgeInsets = UIEdgeInsets(top: 0, left: -(totalWidth - imageWidth), bottom: 0, right: 0)
-                titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -(totalWidth - titleWidth))
+            }
+            else {
+                imageEdgeInsets = UIEdgeInsets(top: 0, left: (bounds.width) / 2, bottom: 0, right: 0)
             }
         } else if title != "" {
             setTitle(title, for: .normal)
@@ -84,9 +79,9 @@ public class TDBaseButton: UIButton {
     }
 
     func layout() {
-        snp.updateConstraints {
-            $0.height.equalTo(56)
-        }
+        // snp.updateConstraints {
+        //     $0.height.equalTo(56)
+        // }
     }
 
     // MARK: - Radius

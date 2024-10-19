@@ -7,10 +7,15 @@
 
 import Foundation
 
-public final class ReportPostUseCase {
-    private let repository: PostRepositoryProtocol
+public protocol ReportPostUseCase {
+    func execute(post: Post) async throws -> Bool
+}
+
+
+public final class ReportPostUseCaseImpl: ReportPostUseCase  {
+    private let repository: PostRepository
     
-    public init(repository: PostRepositoryProtocol) {
+    public init(repository: PostRepository) {
         self.repository = repository
     }
     

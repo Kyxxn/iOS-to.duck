@@ -10,14 +10,14 @@ import Foundation
 public struct User {
     let id: Int
     var name: String
-    var icon: String
+    var icon: String?
     var title: String
     var isblock: Bool
     
     init(
         id: Int,
         name: String,
-        icon: String,
+        icon: String?,
         title: String,
         isblock: Bool
     ) {

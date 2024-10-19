@@ -1,34 +1,24 @@
-//
-//  TimerViewController.swift
-//  toduck
-//
-//  Created by 박효준 on 7/15/24.
-//
-
 import UIKit
 
-class TimerViewController: UIViewController, TDSheetPresentation {
+final class TimerViewController: BaseViewController<TimerView>, TDSheetPresentation {
+ 
+
     
-    let sheetButton = UIButton().then {
-        $0.setTitle("시트지 열기", for: .normal)
-        $0.addTarget(self, action: #selector(showDetail), for: .touchUpInside)
-        $0.setTitleColor(.systemRed, for: .normal)
-    }
-    
-    @objc func showDetail() {
-        let bottomSheetVC = ThemeViewController()
-        showSheet(with: bottomSheetVC)
-    }
-    
+    private let delegate = TDSheetTransitioningDelegate()
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .systemBackground
-        
-        view.addSubview(sheetButton)
-        sheetButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            sheetButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            sheetButton.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
+        layoutView.button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
     }
+    
+    @objc func didTapButton() {
+        let vc = TimerSettingViewController()
+    
+        // vc.modalPresentationStyle = .custom
+        // vc.transitioningDelegate = delegate
+        // present(vc, animated: true)
+        showSheet(with: vc)
+    }
+
+    
 }

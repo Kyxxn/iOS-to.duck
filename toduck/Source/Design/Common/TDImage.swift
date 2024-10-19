@@ -39,6 +39,8 @@ public enum TDImage {
     public static let penSmall = ToduckAsset.Images.penSmall.image
     public static let sortSmall = ToduckAsset.Images.sortSmall.image
     public static let timeSmall = ToduckAsset.Images.timeSmall.image
+    public static let tomatoTerm = ToduckAsset.Images.tomatoTerm.image
+    public static let fireSmall = ToduckAsset.Images.fireSmall.image
     
     public enum Like {
         public static let small = ToduckAsset.Images.likeSmall.image
@@ -92,6 +94,7 @@ public enum TDImage {
         public static let verticalMedium = ToduckAsset.Images.dotVerticalMedium.image
         public static let horizontalSmall = ToduckAsset.Images.dotHorizontalSmall.image
         public static let verticalSmall = ToduckAsset.Images.dotVerticalSmall.image
+        public static let vertical2Small = ToduckAsset.Images.dotVertical2Small.image
     }
     
     public enum Eye {
@@ -142,14 +145,14 @@ public enum TDImage {
         public static let medium = ToduckAsset.Images.socialMedium.image
     }
     
-    public enum Stop {
-        public static let medium = ToduckAsset.Images.stopMedium.image
-        public static let x2Medium = ToduckAsset.Images.stopX2Medium.image
-    }
     
     public enum Timer {
         public static let colorMedium = ToduckAsset.Images.timerColorMedium.image
         public static let medium = ToduckAsset.Images.timerMedium.image
+        public static let play = ToduckAsset.Images.playMedium.image
+        public static let pause = ToduckAsset.Images.pauseMedium.image
+        public static let reset = ToduckAsset.Images.resetMedium.image
+        public static let stop = ToduckAsset.Images.stopMedium.image
     }
     
     public enum X {
