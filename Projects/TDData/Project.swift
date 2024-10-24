@@ -18,6 +18,7 @@ let project = Project(
             sources: .sources,
             dependencies: [
                 .domain(),
+                .core(),
                 .network() // TODO: 제거해야 함
             ]
         ),

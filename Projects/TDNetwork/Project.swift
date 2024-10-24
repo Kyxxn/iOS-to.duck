@@ -17,6 +17,8 @@ let project = Project.project(
             bundleId: Project.bundleID + ".network",
             sources: .sources,
             dependencies: [
+                .core(),
+                .domain(), // TODO: Domain 의존성 제거
                 .external(name: "Moya")
             ]
         ),

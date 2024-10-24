@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol CommentRepositoryProtocol {
+public protocol CommentRepository {
     func toggleCommentLike(commentId: Int) async throws -> Bool
 
     func fetchCommentList(commentId: Int) async throws -> [Comment]?

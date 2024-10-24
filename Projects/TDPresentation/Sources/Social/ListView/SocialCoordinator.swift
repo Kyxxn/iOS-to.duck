@@ -1,4 +1,4 @@
-import TDData
+import TDCore
 import TDDomain
 import UIKit
 
@@ -6,15 +6,17 @@ final class SocialCoordinator: Coordinator {
     var navigationController: UINavigationController
     var childCoordinators = [any Coordinator]()
     var finishDelegate: CoordinatorFinishDelegate?
+    var injector: DependencyResolvable = DIContainer.shared
 
-    init(navigationController: UINavigationController) {
+    init(
+        navigationController: UINavigationController
+    ) {
         self.navigationController = navigationController
     }
 
     func start() {
-        let repository = PostRepositoryImpl()
-        let fetchPostUseCase = FetchPostUseCaseImpl(repository: repository)
-        let togglePostLikeUseCase = TogglePostLikeUseCaseImpl(repository: repository)
+        let fetchPostUseCase = injector.resolve(FetchPostUseCase.self)
+        let togglePostLikeUseCase = injector.resolve(TogglePostLikeUseCase.self)
         let socialViewModel = SocialViewModel(fetchPostUseCase: fetchPostUseCase, togglePostLikeUseCase: togglePostLikeUseCase)
         let socialViewController = SocialViewController(viewModel: socialViewModel)
         socialViewController.coordinator = self

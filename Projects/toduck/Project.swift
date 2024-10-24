@@ -20,7 +20,7 @@ let appTarget = Target.target(
         .design(),
         .network(),
         .storage(),
-        .domain(),
+        .domain()
     ],
     settings: .settings(configurations: [
         .debug(name: "Debug", xcconfig: "SupportingFiles/Debug.xcconfig"),

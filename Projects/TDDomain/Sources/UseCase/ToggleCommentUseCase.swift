@@ -8,9 +8,9 @@
 import Foundation
 
 public final class ToggleCommentUseCase {
-    private let repository: CommentRepositoryProtocol
+    private let repository: CommentRepository
     
-    public init(repository: CommentRepositoryProtocol) {
+    public init(repository: CommentRepository) {
         self.repository = repository
     }
     

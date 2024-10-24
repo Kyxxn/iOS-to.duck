@@ -18,7 +18,8 @@ let packageSettings = PackageSettings(
         "Moya": .framework,
         "Then": .framework,
         "FSCalendar": .framework,
-        "FittedSheets": .framework
+        "FittedSheets": .framework,
+        "Swinject": .framework
     ]
 )
 #endif
@@ -31,6 +32,7 @@ let package = Package(
         .package(url: "https://github.com/Moya/Moya", from: "15.0.3"),
         .package(url: "https://github.com/devxoul/Then", from: "3.0.0"),
         .package(url: "https://github.com/WenchaoD/FSCalendar", from: "2.8.4"),
-        .package(url: "https://github.com/gordontucker/FittedSheets.git", from: "2.6.1")
+        .package(url: "https://github.com/gordontucker/FittedSheets.git", from: "2.6.1"),
+        .package(url: "https://github.com/Swinject/Swinject.git", from: "2.9.1")
     ]
 )

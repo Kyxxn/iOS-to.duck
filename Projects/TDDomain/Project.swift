@@ -10,6 +10,7 @@ let project = Project.project(
             bundleId: Project.bundleID + ".domain",
             sources: .sources,
             dependencies: [
+                .core()
             ]
         ),
         Target.target(

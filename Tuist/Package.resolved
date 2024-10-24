@@ -1,4 +1,5 @@
 {
+  "originHash" : "fe51171c41e87a29c8c663c808844fd6df3c598830ca8044bd4b9621bbe7c2ea",
   "pins" : [
     {
       "identity" : "alamofire",
@@ -73,6 +74,15 @@
       }
     },
     {
+      "identity" : "swinject",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Swinject/Swinject.git",
+      "state" : {
+        "revision" : "be9dbcc7b86811bc131539a20c6f9c2d3e56919f",
+        "version" : "2.9.1"
+      }
+    },
+    {
       "identity" : "then",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/devxoul/Then.git",
@@ -82,5 +92,5 @@
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }

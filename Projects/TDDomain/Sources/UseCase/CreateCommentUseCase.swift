@@ -12,9 +12,9 @@ public protocol CreateCommentUseCase {
 }
 
 public final class CreateCommentUseCaseImpl: CreateCommentUseCase {
-    private let repository: CommentRepositoryProtocol
+    private let repository: CommentRepository
     
-    public init(repository: CommentRepositoryProtocol) {
+    public init(repository: CommentRepository) {
         self.repository = repository
     }
     

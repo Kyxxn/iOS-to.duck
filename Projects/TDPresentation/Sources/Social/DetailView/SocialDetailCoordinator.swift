@@ -1,4 +1,4 @@
-import TDData
+import TDCore
 import TDDomain
 import UIKit
 
@@ -6,6 +6,7 @@ final class SocialDetailCoordinator: Coordinator {
     var navigationController: UINavigationController
     var childCoordinators = [any Coordinator]()
     var finishDelegate: CoordinatorFinishDelegate?
+    var injector: DependencyResolvable = DIContainer.shared
 
     let postID: Int
     
@@ -15,11 +16,10 @@ final class SocialDetailCoordinator: Coordinator {
     }
 
     func start() {
-        let postRepository = PostRepositoryImpl()
-        let fetchPostUseCase = FetchPostUseCaseImpl(repository: postRepository)
-        let likePostUseCase = TogglePostLikeUseCaseImpl(repository: postRepository)
-        let createCommentUseCase = CreateCommentUseCaseImpl(repository: CommentRepository())
-        let reportPostUseCase = ReportPostUseCaseImpl(repository: postRepository)
+        let fetchPostUseCase = injector.resolve(FetchPostUseCase.self)
+        let likePostUseCase = injector.resolve(TogglePostLikeUseCase.self)
+        let createCommentUseCase =  injector.resolve(CreateCommentUseCase.self)
+        let reportPostUseCase = injector.resolve(ReportPostUseCase.self)
         
         let socialDetailViewModel = SocialDetailViewModel(
             fetchPostUsecase: fetchPostUseCase,
